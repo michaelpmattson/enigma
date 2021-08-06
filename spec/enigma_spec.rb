@@ -16,16 +16,16 @@ RSpec.describe Enigma do
   end
 
   describe '#encrypt(text, key, date)' do
-    xit 'encrypts a message with a key and date' do
+    it 'encrypts a message with a key and date' do
       # encrypt a message with a key and date
-      encryption = @enigma.encrypt("hello world", "02715", "040895")
+      encrypt = @enigma.encrypt("hello world", "02715", "040895")
       expectation = {
         encryption: "keder ohulw",
         key: "02715",
         date: "040895"
       }
 
-      expect(encryption).to eq(expectation)
+      expect(encrypt).to eq(expectation)
     end
 
     xit "encrypts a message with a key (uses today's date)" do
@@ -38,6 +38,24 @@ RSpec.describe Enigma do
       # encrypt a message (generates random key and uses today's date)
       @enigma.encrypt("hello world")
       #=> # encryption hash here
+    end
+  end
+
+  describe '#encryption(text)' do
+    xit 'returns the encryption' do
+      encryption = @enigma.encryption("hello world", "02715", "040895")
+
+      expect(encryption).to eq("keder ohulw")
+    end
+  end
+
+  describe '#shift_char(char, key_letter)' do
+    it 'something' do
+      shift_map = { a: 76, b: 23, c: 43, d: 95 }
+      char = "a"
+
+      expect(shift_char(char, :a)).to eq()
+      expect(shift_char(char, :b)).to eq()
     end
   end
 

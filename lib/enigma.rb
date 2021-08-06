@@ -10,9 +10,38 @@ class Enigma
   #
   # end
   #
-  # def encrypt(text, key, date: todays_date)
-  #
-  # end
+  def encrypt(text, key, date = todays_date)
+    {
+      encryption: encryption(text, key, date),
+      key: key,
+      date: date
+    }
+  end
+
+  def encryption(text, key, date)
+    shift_map = shift_map(key, offset(date))
+    text_array = text.chars
+    encryption_array = []
+    text_array.each_with_index do |char, index|
+      if    index % 4 == 0
+        encryption_array << shift_char(char, :a) # a
+      elsif index % 4 == 1
+        encryption_array << shift_char(char, :b) # b
+      elsif index % 4 == 2
+        encryption_array << shift_char(char, :c) # c
+      elsif index % 4 == 3
+        encryption_array << shift_char(char, :d) # d
+      else
+        # nothing, shouldn't get here.
+      end
+    end
+    encryption_array.join
+  end
+
+  def shift_char(char, key_letter)
+    map = shift_map() # store this somewhere!!!!
+    ALPHA.index(char) + shift_map
+  end
   #
   # def decrypt(ciphertext, key, date: todays_date)
   #
