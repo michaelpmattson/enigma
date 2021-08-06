@@ -22,7 +22,7 @@ class Enigma
   #
   # end
 
-  def key_gen
+  def make_key
     normalize_length(random_string_num)
   end
 
@@ -45,5 +45,23 @@ class Enigma
     date = date.to_i
     squared = date * date
     squared.to_s.slice(-4, 4)
+  end
+
+  def key_map(key)
+    {
+      a: key[0..1].to_i,
+      b: key[1..2].to_i,
+      c: key[2..3].to_i,
+      d: key[3..4].to_i
+    }
+  end
+
+  def shift_map(key, offset)
+    {
+      a: key_map(key)[:a] + offset[0].to_i,
+      b: key_map(key)[:b] + offset[1].to_i,
+      c: key_map(key)[:c] + offset[2].to_i,
+      d: key_map(key)[:d] + offset[3].to_i
+    }
   end
 end

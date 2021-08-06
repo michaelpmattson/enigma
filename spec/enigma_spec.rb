@@ -103,18 +103,18 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#key_gen' do
+  describe '#make_key' do
     it 'generates a random five digit number' do
-      key_gen = @enigma.key_gen
+      key = @enigma.make_key
 
-      expect(key_gen.length).to eq(5)
+      expect(key.length).to eq(5)
     end
 
     it 'adds leading zeroes to random numbers less than five digits' do
-      allow(@enigma).to receive(:random_string_num).and_return("349")
-      key_gen = @enigma.key_gen
+      allow(@enigma).to receive(:rand).and_return(349)
+      key = @enigma.make_key
 
-      expect(key_gen.length).to eq(5)
+      expect(key.length).to eq(5)
     end
   end
 
@@ -132,26 +132,41 @@ RSpec.describe Enigma do
     it 'returns the last four digits of date squared' do
       allow(Date).to receive(:today).and_return(Date.new(2021, 8, 5))
       offset = @enigma.offset(@enigma.todays_date) # 050821
-      
+
       # 050821 * 050821 = 2582774041
       expect(offset).to eq("4041")
     end
   end
 
-  # describe '#shift_gen(key, date)' do
-  #   xit 'returns a hash of shifts A-D' do
-  #     # date will be 050821
-  #     allow(Date).to receive(:today).and_return(Date.new(2021, 08, 05))
-  #     shift = @enigma.shift_gen("72394", @enigma.todays_date)
-  #
-  #     expectation = {
-  #       a: ,
-  #       b: ,
-  #       c: ,
-  #       d:
-  #     }
-  #   end
-  # end
+  describe '#key_map(key)' do
+    it 'returns a hash of keys for A-D' do
+      key_map = @enigma.key_map("72394")
+
+      expectation = {
+        a: 72,
+        b: 23,
+        c: 39,
+        d: 94
+      }
+
+      expect(key_map).to eq(expectation)
+    end
+  end
+
+  describe '#shift_map(key, offset)' do
+    it 'returns a hash of shifts A-D' do
+        shift_map = @enigma.shift_map("72394", "4041")
+
+        expectation = {
+          a: 76,
+          b: 23,
+          c: 43,
+          d: 95
+        }
+
+        expect(shift_map).to eq(expectation)
+    end
+  end
 end
 
 
