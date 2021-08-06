@@ -6,21 +6,21 @@ class Enigma
 
   # readers / accessors
 
-  def initialize
-
-  end
-
-  def encrypt(text, key, date: todays_date)
-
-  end
-
-  def decrypt(ciphertext, key, date: todays_date)
-
-  end
-
-  def crack(ciphertext, date: todays_date)
-
-  end
+  # def initialize
+  #
+  # end
+  #
+  # def encrypt(text, key, date: todays_date)
+  #
+  # end
+  #
+  # def decrypt(ciphertext, key, date: todays_date)
+  #
+  # end
+  #
+  # def crack(ciphertext, date: todays_date)
+  #
+  # end
 
   def key_gen
     normalize_length(random_string_num)
@@ -35,5 +35,15 @@ class Enigma
       string_num = "0" + string_num
     end
     string_num
+  end
+
+  def todays_date
+    Date.today.strftime("%d%m%y")
+  end
+
+  def offset(date)
+    date = date.to_i
+    squared = date * date
+    squared.to_s.slice(-4, 4)
   end
 end

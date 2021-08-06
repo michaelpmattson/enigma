@@ -117,6 +117,41 @@ RSpec.describe Enigma do
       expect(key_gen.length).to eq(5)
     end
   end
+
+  describe '#todays_date' do
+    it 'returns date as six character string' do
+      date = @enigma.todays_date
+
+      expect(date.length).to eq(6)
+      # Test needs edited per date run
+      # expect(date).to eq("060821")
+    end
+  end
+
+  describe '#offset(date)' do
+    it 'returns the last four digits of date squared' do
+      allow(Date).to receive(:today).and_return(Date.new(2021, 8, 5))
+      offset = @enigma.offset(@enigma.todays_date) # 050821
+      
+      # 050821 * 050821 = 2582774041
+      expect(offset).to eq("4041")
+    end
+  end
+
+  # describe '#shift_gen(key, date)' do
+  #   xit 'returns a hash of shifts A-D' do
+  #     # date will be 050821
+  #     allow(Date).to receive(:today).and_return(Date.new(2021, 08, 05))
+  #     shift = @enigma.shift_gen("72394", @enigma.todays_date)
+  #
+  #     expectation = {
+  #       a: ,
+  #       b: ,
+  #       c: ,
+  #       d:
+  #     }
+  #   end
+  # end
 end
 
 
