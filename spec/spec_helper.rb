@@ -3,4 +3,4 @@ require 'rspec'
 SimpleCov.start
 
 # lib files
-require './lib/enigma.rb'
+# require './lib/enigma.rb'

@@ -1,21 +1,24 @@
+require_relative 'spec_helper'
+require './lib/enigma.rb'
 require 'date'
 
 RSpec.describe Enigma do
+  before(:each) do
+    @enigma = Enigma.new
+  end
+
   describe '#initialize' do
     it 'exists and has attributes' do
-      enigma = Enigma.new
 
-      expect(enigma).to be_an_instance_of(Enigma)
+      expect(@enigma).to be_an_instance_of(Enigma)
       # expect(something).to eq(expectation)
     end
   end
 
   describe '#encrypt(text, key, date)' do
     xit 'encrypts a message with a key and date' do
-      enigma = Enigma.new
-
       # encrypt a message with a key and date
-      encryption = enigma.encrypt("hello world", "02715", "040895")
+      encryption = @enigma.encrypt("hello world", "02715", "040895")
       expectation = {
         encryption: "keder ohulw",
         key: "02715",
@@ -26,28 +29,22 @@ RSpec.describe Enigma do
     end
 
     xit "encrypts a message with a key (uses today's date)" do
-      enigma = Enigma.new
-
       # encrypt a message with a key (uses today's date)
-      encrypted = enigma.encrypt("hello world", "02715")
+      encrypted = @enigma.encrypt("hello world", "02715")
       #=> # encryption hash here
     end
 
     xit "encrypts a message (generates random key and uses today's date)" do
-      enigma = Enigma.new
-
       # encrypt a message (generates random key and uses today's date)
-      enigma.encrypt("hello world")
+      @enigma.encrypt("hello world")
       #=> # encryption hash here
     end
   end
 
   describe '#decrypt(ciphertext, key, date)' do
     xit 'decrypts a message with a key and date' do
-      enigma = Enigma.new
-
       # decrypt a message with a key and date
-      decryption = enigma.decrypt("keder ohulw", "02715", "040895")
+      decryption = @enigma.decrypt("keder ohulw", "02715", "040895")
       expectation = {
         decryption: "hello world",
         key: "02715",
@@ -58,19 +55,15 @@ RSpec.describe Enigma do
     end
 
     xit "decrypts a message with a key (uses today's date)" do
-      enigma = Enigma.new
-
       #decrypt a message with a key (uses today's date)
-      enigma.decrypt(encrypted[:encryption], "02715")
+      @enigma.decrypt(encrypted[:encryption], "02715")
       #=> # decryption hash here
     end
   end
 
   describe '#crack(ciphertext, date)' do
     xit 'cracks an encryption with a date' do
-      enigma = Enigma.new
-
-      encryption = enigma.encrypt("hello world end", "08304", "291018")
+      encryption = @enigma.encrypt("hello world end", "08304", "291018")
       #=>
       #   {
       #     encryption: "vjqtbeaweqihssi",
@@ -79,7 +72,7 @@ RSpec.describe Enigma do
       #   }
 
       # crack an encryption with a date
-      crack = enigma.crack("vjqtbeaweqihssi", "291018")
+      crack = @enigma.crack("vjqtbeaweqihssi", "291018")
       #=>
       #   {
       #     decryption: "hello world end",
@@ -93,12 +86,10 @@ RSpec.describe Enigma do
     end
 
     xit "cracks an encryption (uses today's date)" do
-      enigma = Enigma.new
-
-      encryption = enigma.encrypt("hello world end", "08304", "291018")
+      encryption = @enigma.encrypt("hello world end", "08304", "291018")
 
       # crack an encryption (uses today's date)
-      crack = enigma.crack("vjqtbeaweqihssi")
+      crack = @enigma.crack("vjqtbeaweqihssi")
       #=>
       #   {
       #     decryption: "hello world end",
@@ -111,4 +102,24 @@ RSpec.describe Enigma do
       expect(crack[:key]).to eq(encryption[:key])
     end
   end
+
+  describe '#key_gen' do
+    it 'generates a random five digit number' do
+      key_gen = @enigma.key_gen
+
+      expect(key_gen.length).to eq(5)
+    end
+
+    it 'adds leading zeroes to random numbers less than five digits' do
+      allow(@enigma).to receive(:random_string_num).and_return("349")
+      key_gen = @enigma.key_gen
+
+      expect(key_gen.length).to eq(5)
+    end
+  end
 end
+
+
+ # @date = Date.today.strftime("%d/%m/%Y")
+# allow(Date).to receive(:today).and_return(Date.new(2020, 01, 24))
+# expect(@event.date).to eq('24/01/2020')
