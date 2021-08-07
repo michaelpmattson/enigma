@@ -5,7 +5,7 @@ message = handle.read
 handle.close
 
 enigma = Enigma.new
-encrypted = enigma.encrypt(message, "02715", "040895")
+encrypted = enigma.encrypt(message)
 
 encrypted_file = File.open(ARGV[1], "w")
 
