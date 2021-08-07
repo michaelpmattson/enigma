@@ -28,21 +28,38 @@ RSpec.describe Enigma do
       expect(encrypt).to eq(expectation)
     end
 
-    xit "encrypts a message with a key (uses today's date)" do
+    it "encrypts a message with a key (uses today's date)" do
+      allow(Date).to receive(:today).and_return(Date.new(1995, 8, 4))
       # encrypt a message with a key (uses today's date)
-      encrypted = @enigma.encrypt("hello world", "02715")
+      encrypt = @enigma.encrypt("hello world", "02715")
       #=> # encryption hash here
+      expectation = {
+        encryption: "keder ohulw",
+        key: "02715",
+        date: "040895"
+      }
+
+      expect(encrypt).to eq(expectation)
     end
 
-    xit "encrypts a message (generates random key and uses today's date)" do
+    it "encrypts a message (generates random key and uses today's date)" do
+      allow(Date).to receive(:today).and_return(Date.new(1995, 8, 4))
+      allow(@enigma).to receive(:rand).and_return(2715)
       # encrypt a message (generates random key and uses today's date)
-      @enigma.encrypt("hello world")
+      encrypt = @enigma.encrypt("hello world")
       #=> # encryption hash here
+      expectation = {
+        encryption: "keder ohulw",
+        key: "02715",
+        date: "040895"
+      }
+
+      expect(encrypt).to eq(expectation)
     end
   end
 
   describe '#encryption(text)' do
-    xit 'returns the encryption' do
+    it 'returns the encryption' do
       encryption = @enigma.encryption("hello world", "02715", "040895")
 
       expect(encryption).to eq("keder ohulw")
@@ -50,32 +67,49 @@ RSpec.describe Enigma do
   end
 
   describe '#shift_char(char, key_letter)' do
-    it 'something' do
+    it 'shifts to the right based on the key' do
       shift_map = { a: 76, b: 23, c: 43, d: 95 }
-      char = "a"
+      char_1 = "a"
 
-      expect(shift_char(char, :a)).to eq()
-      expect(shift_char(char, :b)).to eq()
+      expect(@enigma.shift_char(char_1, :a, shift_map)).to eq("w")
+      expect(@enigma.shift_char(char_1, :b, shift_map)).to eq("x")
+    end
+
+    it 'can start over at the end of alphabet' do
+      shift_map = { a: 76, b: 23, c: 43, d: 95 }
+      char_2 = "m"
+
+      expect(@enigma.shift_char(char_2, :a, shift_map)).to eq("h")
+      expect(@enigma.shift_char(char_2, :b, shift_map)).to eq("i")
     end
   end
 
   describe '#decrypt(ciphertext, key, date)' do
-    xit 'decrypts a message with a key and date' do
+    it 'decrypts a message with a key and date' do
       # decrypt a message with a key and date
-      decryption = @enigma.decrypt("keder ohulw", "02715", "040895")
+      decrypt = @enigma.decrypt("keder ohulw", "02715", "040895")
       expectation = {
         decryption: "hello world",
         key: "02715",
         date: "040895"
       }
 
-      expect(decryption).to eq(expectation)
+      expect(decrypt).to eq(expectation)
     end
 
-    xit "decrypts a message with a key (uses today's date)" do
+    it "decrypts a message with a key (uses today's date)" do
+      allow(Date).to receive(:today).and_return(Date.new(1995, 8, 4))
+      encrypted = @enigma.encrypt("hello world", "02715")
       #decrypt a message with a key (uses today's date)
-      @enigma.decrypt(encrypted[:encryption], "02715")
+      decrypted = @enigma.decrypt(encrypted[:encryption], "02715")
       #=> # decryption hash here
+      expectation = {
+        decryption: "hello world",
+        key: "02715",
+        date: "040895"
+      }
+
+      expect(decrypted).to eq(expectation)
     end
   end
 
@@ -142,7 +176,7 @@ RSpec.describe Enigma do
 
       expect(date.length).to eq(6)
       # Test needs edited per date run
-      # expect(date).to eq("060821")
+      # expect(date).to eq("#{Date.today.strftime("%d%m%y")}")
     end
   end
 

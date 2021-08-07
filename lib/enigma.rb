@@ -10,7 +10,7 @@ class Enigma
   #
   # end
   #
-  def encrypt(text, key, date = todays_date)
+  def encrypt(text, key = make_key, date = todays_date)
     {
       encryption: encryption(text, key, date),
       key: key,
@@ -24,28 +24,58 @@ class Enigma
     encryption_array = []
     text_array.each_with_index do |char, index|
       if    index % 4 == 0
-        encryption_array << shift_char(char, :a) # a
+        encryption_array << shift_char(char, :a, shift_map) # a
       elsif index % 4 == 1
-        encryption_array << shift_char(char, :b) # b
+        encryption_array << shift_char(char, :b, shift_map) # b
       elsif index % 4 == 2
-        encryption_array << shift_char(char, :c) # c
+        encryption_array << shift_char(char, :c, shift_map) # c
       elsif index % 4 == 3
-        encryption_array << shift_char(char, :d) # d
+        encryption_array << shift_char(char, :d, shift_map) # d
       else
         # nothing, shouldn't get here.
       end
     end
-    encryption_array.join
+    enc = encryption_array.join
   end
 
-  def shift_char(char, key_letter)
-    map = shift_map() # store this somewhere!!!!
-    ALPHA.index(char) + shift_map
+  def shift_char(char, key_letter, shift_map)
+    shift = (ALPHABET.index(char) + shift_map[key_letter]) % 27
+    ALPHABET[shift]
   end
-  #
-  # def decrypt(ciphertext, key, date: todays_date)
-  #
-  # end
+
+  def decrypt(ciphertext, key, date = todays_date)
+    {
+      decryption: decryption(ciphertext, key, date),
+      key: key,
+      date: date
+    }
+  end
+
+  def decryption(ciphertext, key, date)
+    shift_map = shift_map(key, offset(date))
+    text_array = ciphertext.chars
+    decryption_array = []
+    text_array.each_with_index do |char, index|
+      if    index % 4 == 0
+        decryption_array << unshift_char(char, :a, shift_map) # a
+      elsif index % 4 == 1
+        decryption_array << unshift_char(char, :b, shift_map) # b
+      elsif index % 4 == 2
+        decryption_array << unshift_char(char, :c, shift_map) # c
+      elsif index % 4 == 3
+        decryption_array << unshift_char(char, :d, shift_map) # d
+      else
+        # nothing, shouldn't get here.
+      end
+    end
+    dec = decryption_array.join
+  end
+
+  def unshift_char(char, key_letter, shift_map)
+    shift = (ALPHABET.index(char) - shift_map[key_letter]) % 27
+    ALPHABET[shift]
+  end
+
   #
   # def crack(ciphertext, date: todays_date)
   #
