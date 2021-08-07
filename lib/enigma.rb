@@ -1,3 +1,5 @@
+require 'Date'
+
 class Enigma
   # modules
 
@@ -39,8 +41,13 @@ class Enigma
   end
 
   def shift_char(char, key_letter, shift_map)
+    return char if special_char?(char)
     shift = (ALPHABET.index(char) + shift_map[key_letter]) % 27
     ALPHABET[shift]
+  end
+
+  def special_char?(char)
+    !ALPHABET.include?(char)
   end
 
   def decrypt(ciphertext, key, date = todays_date)
@@ -72,6 +79,7 @@ class Enigma
   end
 
   def unshift_char(char, key_letter, shift_map)
+    return char if special_char?(char)
     shift = (ALPHABET.index(char) - shift_map[key_letter]) % 27
     ALPHABET[shift]
   end
