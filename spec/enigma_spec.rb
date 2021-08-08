@@ -68,7 +68,6 @@ RSpec.describe Enigma do
 
   describe '#decrypt(ciphertext, key, date)' do
     it 'decrypts a message with a key and date' do
-      @enigma.make_shift("02715", "040895")
       # decrypt a message with a key and date
       decrypt = @enigma.decrypt("keder ohulw", "02715", "040895")
       expectation = {

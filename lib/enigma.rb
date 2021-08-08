@@ -4,12 +4,6 @@ require_relative 'key'
 require_relative 'offset'
 
 class Enigma
-  # modules
-
-  # # constants
-  # ALPHABET = ("a".."z").to_a << " "
-
-  # readers / accessors
   attr_reader :shift
 
   def initialize
