@@ -54,4 +54,6 @@ class Shift
 
     Shift.new(Key.new(key), offset)
   end
+
+
 end
