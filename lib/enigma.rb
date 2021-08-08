@@ -24,23 +24,18 @@ class Enigma
   end
 
   def encryption(text, date)
-    # shift_map = shift_map(offset(date))
     text_array = text.chars
-    encryption_array = []
-    text_array.each_with_index do |char, index|
+    text_array.map.with_index do |char, index|
       if    index % 4 == 0
-        encryption_array << @shift.right(char, :a) # a
+        @shift.right(char, :a)
       elsif index % 4 == 1
-        encryption_array << @shift.right(char, :b) # b
+        @shift.right(char, :b)
       elsif index % 4 == 2
-        encryption_array << @shift.right(char, :c) # c
+        @shift.right(char, :c)
       elsif index % 4 == 3
-        encryption_array << @shift.right(char, :d) # d
-      else
-        # nothing, shouldn't get here.
+        @shift.right(char, :d)
       end
-    end
-    enc = encryption_array.join
+    end.join
   end
 
   def decrypt(ciphertext, key, date = Offset.todays_date)
@@ -53,22 +48,17 @@ class Enigma
   end
 
   def decryption(ciphertext, key, date)
-    # shift_map = shift_map(key, offset(date))
     text_array = ciphertext.chars
-    decryption_array = []
-    text_array.each_with_index do |char, index|
+    text_array.map.with_index do |char, index|
       if    index % 4 == 0
-        decryption_array << @shift.left(char, :a) # a
+        @shift.left(char, :a)
       elsif index % 4 == 1
-        decryption_array << @shift.left(char, :b) # b
+        @shift.left(char, :b)
       elsif index % 4 == 2
-        decryption_array << @shift.left(char, :c) # c
+        @shift.left(char, :c)
       elsif index % 4 == 3
-        decryption_array << @shift.left(char, :d) # d
-      else
-        # nothing, shouldn't get here.
+        @shift.left(char, :d)
       end
-    end
-    dec = decryption_array.join
+    end.join
   end
 end
