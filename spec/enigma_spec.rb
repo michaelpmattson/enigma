@@ -10,7 +10,7 @@ RSpec.describe Enigma do
   describe '#initialize' do
     it 'exists and has attributes' do
       expect(@enigma).to be_an_instance_of(Enigma)
-      expect(@enigma.key).to eq(nil)
+      # expect(@enigma.key).to eq(nil)
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe Enigma do
 
     it "encrypts a message (generates random key and uses today's date)" do
       allow(Date).to receive(:today).and_return(Date.new(1995, 8, 4))
-      allow(@enigma).to receive(:rand).and_return(2715)
+      allow(Key).to receive(:rand).and_return(2715)
       # encrypt a message (generates random key and uses today's date)
       encrypt = @enigma.encrypt("hello world")
       #=> # encryption hash here
@@ -59,32 +59,16 @@ RSpec.describe Enigma do
 
   describe '#encryption(text)' do
     it 'returns the encryption' do
-      encryption = @enigma.encryption("hello world", "02715", "040895")
+      @enigma.make_shift("02715", "040895")
+      encryption = @enigma.encryption("hello world", "02715")
 
       expect(encryption).to eq("keder ohulw")
     end
   end
 
-  describe '#shift_char(char, key_letter)' do
-    it 'shifts to the right based on the key' do
-      shift_map = { a: 76, b: 23, c: 43, d: 95 }
-      char_1 = "a"
-
-      expect(@enigma.shift_char(char_1, :a, shift_map)).to eq("w")
-      expect(@enigma.shift_char(char_1, :b, shift_map)).to eq("x")
-    end
-
-    it 'can start over at the end of alphabet' do
-      shift_map = { a: 76, b: 23, c: 43, d: 95 }
-      char_2 = "m"
-
-      expect(@enigma.shift_char(char_2, :a, shift_map)).to eq("h")
-      expect(@enigma.shift_char(char_2, :b, shift_map)).to eq("i")
-    end
-  end
-
   describe '#decrypt(ciphertext, key, date)' do
     it 'decrypts a message with a key and date' do
+      @enigma.make_shift("02715", "040895")
       # decrypt a message with a key and date
       decrypt = @enigma.decrypt("keder ohulw", "02715", "040895")
       expectation = {
@@ -153,41 +137,4 @@ RSpec.describe Enigma do
       expect(crack[:key]).to eq(encryption[:key])
     end
   end
-
-
-  # describe '#todays_date' do
-  #   it 'returns date as six character string' do
-  #     date = @enigma.todays_date
-  #
-  #     expect(date.length).to eq(6)
-  #     # Test needs edited per date run
-  #     # expect(date).to eq("#{Date.today.strftime("%d%m%y")}")
-  #   end
-  # end
-  #
-  # describe '#offset(date)' do
-  #   it 'returns the last four digits of date squared' do
-  #     allow(Date).to receive(:today).and_return(Date.new(2021, 8, 5))
-  #     offset = @enigma.offset(@enigma.todays_date) # 050821
-  #
-  #     # 050821 * 050821 = 2582774041
-  #     expect(offset).to eq("4041")
-  #   end
-  # end
-
-  # describe '#shift_map(key, offset)' do
-  #   it 'returns a hash of shifts A-D' do
-  #       key = Key.new("72394")
-  #       shift_map = @enigma.shift_map("4041")
-  #
-  #       expectation = {
-  #         a: 76,
-  #         b: 23,
-  #         c: 43,
-  #         d: 95
-  #       }
-  #
-  #       expect(shift_map).to eq(expectation)
-  #   end
-  # end
 end

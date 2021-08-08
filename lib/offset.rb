@@ -1,7 +1,7 @@
 class Offset
   attr_reader :date, :a, :b, :c, :d
 
-  def initialize(date = todays_date)
+  def initialize(date)
     @date = date
     @a = num[0].to_i
     @b = num[1].to_i
@@ -9,7 +9,7 @@ class Offset
     @d = num[3].to_i
   end
 
-  def todays_date
+  def self.todays_date
     Date.today.strftime("%d%m%y")
   end
 
