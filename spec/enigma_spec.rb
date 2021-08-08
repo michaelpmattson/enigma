@@ -136,4 +136,20 @@ RSpec.describe Enigma do
       expect(crack[:key]).to eq(encryption[:key])
     end
   end
+
+  describe '#find_end_position(ciphertext)' do
+    it 'returns number of characters A shift is from the end' do
+      encryption = @enigma.encrypt("hello world end", "08304", "291018")
+
+      expect(@enigma.find_end_position("vjqtbeaweqihssi")).to eq(3)
+    end
+  end
+
+  describe '#last_four(ciphertext)' do
+    it 'returns last four characters' do
+      ciphertext = "vjqtbeaweqihssi"
+
+      expect(@enigma.last_four(ciphertext)).to eq("hssi")
+    end
+  end
 end

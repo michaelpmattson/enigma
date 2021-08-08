@@ -34,4 +34,16 @@ RSpec.describe Shift do
       expect(shift.right(char_2, :b)).to eq("i")
     end
   end
+
+  describe '.find_shift(last_four, end_position, date)' do
+    it 'something' do
+      last_four = "hssi"
+      end_position = 3
+      date = "291018"
+      shift = Shift.find_shift(last_four, end_position, date)
+
+      expectation = { a: 14, b: 86, c: 32, d: 8 }
+      expect(shift.map).to eq(expectation)
+    end
+  end
 end

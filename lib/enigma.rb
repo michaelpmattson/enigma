@@ -61,4 +61,19 @@ class Enigma
       end
     end.join
   end
+
+  def crack(ciphertext, date = Offset.todays_date)
+    end_position = find_end_position(ciphertext)
+    last_four = last_four(ciphertext)
+    shift = Shift.find_shift(last_four, end_position, date)
+
+  end
+
+  def find_end_position(ciphertext)
+    ciphertext.length % 4
+  end
+
+  def last_four(ciphertext)
+    ciphertext.slice(-4, 4)
+  end
 end
