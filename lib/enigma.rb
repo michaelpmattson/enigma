@@ -1,56 +1,45 @@
 require 'Date'
+require_relative 'shift'
+require_relative 'key'
+require_relative 'offset'
 
 class Enigma
-  # modules
+  attr_reader :shift
 
-  # constants
-  ALPHABET = ("a".."z").to_a << " "
+  def initialize
+    @shift  = nil
+  end
 
-  # readers / accessors
+  def make_shift(key, date)
+    @shift = Shift.new(Key.new(key), Offset.new(date))
+  end
 
-  # def initialize
-  #
-  # end
-  #
-  def encrypt(text, key = make_key, date = todays_date)
+  def encrypt(text, key = Key.make, date = Offset.todays_date)
+    make_shift(key, date)
     {
-      encryption: encryption(text, key, date),
+      encryption: encryption(text, date),
       key: key,
       date: date
     }
   end
 
-  def encryption(text, key, date)
-    shift_map = shift_map(key, offset(date))
+  def encryption(text, date)
     text_array = text.chars
-    encryption_array = []
-    text_array.each_with_index do |char, index|
+    text_array.map.with_index do |char, index|
       if    index % 4 == 0
-        encryption_array << shift_char(char, :a, shift_map) # a
+        @shift.right(char, :a)
       elsif index % 4 == 1
-        encryption_array << shift_char(char, :b, shift_map) # b
+        @shift.right(char, :b)
       elsif index % 4 == 2
-        encryption_array << shift_char(char, :c, shift_map) # c
+        @shift.right(char, :c)
       elsif index % 4 == 3
-        encryption_array << shift_char(char, :d, shift_map) # d
-      else
-        # nothing, shouldn't get here.
+        @shift.right(char, :d)
       end
-    end
-    enc = encryption_array.join
+    end.join
   end
 
-  def shift_char(char, key_letter, shift_map)
-    return char if special_char?(char)
-    shift = (ALPHABET.index(char) + shift_map[key_letter]) % 27
-    ALPHABET[shift]
-  end
-
-  def special_char?(char)
-    !ALPHABET.include?(char)
-  end
-
-  def decrypt(ciphertext, key, date = todays_date)
+  def decrypt(ciphertext, key, date = Offset.todays_date)
+    make_shift(key, date)
     {
       decryption: decryption(ciphertext, key, date),
       key: key,
@@ -59,76 +48,17 @@ class Enigma
   end
 
   def decryption(ciphertext, key, date)
-    shift_map = shift_map(key, offset(date))
     text_array = ciphertext.chars
-    decryption_array = []
-    text_array.each_with_index do |char, index|
+    text_array.map.with_index do |char, index|
       if    index % 4 == 0
-        decryption_array << unshift_char(char, :a, shift_map) # a
+        @shift.left(char, :a)
       elsif index % 4 == 1
-        decryption_array << unshift_char(char, :b, shift_map) # b
+        @shift.left(char, :b)
       elsif index % 4 == 2
-        decryption_array << unshift_char(char, :c, shift_map) # c
+        @shift.left(char, :c)
       elsif index % 4 == 3
-        decryption_array << unshift_char(char, :d, shift_map) # d
-      else
-        # nothing, shouldn't get here.
+        @shift.left(char, :d)
       end
-    end
-    dec = decryption_array.join
-  end
-
-  def unshift_char(char, key_letter, shift_map)
-    return char if special_char?(char)
-    shift = (ALPHABET.index(char) - shift_map[key_letter]) % 27
-    ALPHABET[shift]
-  end
-
-  #
-  # def crack(ciphertext, date: todays_date)
-  #
-  # end
-
-  def make_key
-    normalize_length(random_string_num)
-  end
-
-  def random_string_num
-    rand(100000).to_s
-  end
-
-  def normalize_length(string_num)
-    while string_num.length < 5
-      string_num = "0" + string_num
-    end
-    string_num
-  end
-
-  def todays_date
-    Date.today.strftime("%d%m%y")
-  end
-
-  def offset(date)
-    date = date.to_i
-    squared = date * date
-    squared.to_s.slice(-4, 4)
-  end
-
-  def key_map(key)
-    {
-      a: key[0..1].to_i,
-      b: key[1..2].to_i,
-      c: key[2..3].to_i,
-      d: key[3..4].to_i
-    }
-  end
-
-  def shift_map(key, offset)
-    {
-      a: key_map(key)[:a] + offset[0].to_i,
-      b: key_map(key)[:b] + offset[1].to_i,
-      c: key_map(key)[:c] + offset[2].to_i,
-      d: key_map(key)[:d] + offset[3].to_i
-    }
+    end.join
   end
 end
