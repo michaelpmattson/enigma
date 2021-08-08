@@ -52,11 +52,37 @@ class Key
   #   require "pry"; binding.pry
   # end
 
+
+
+
+
+  # def self.find_key(shifts)
+  #   key = ""
+  #   shifts.each_with_index do |shift|
+  #     if key == ""
+  #       current = (key += "0").to_i
+  #     else
+  #       current = (key[-1] + "0").to_i
+  #     end
+  #
+  #     while current % 27 != shift
+  #       current += 1
+  #     end
+  #     key = key += current.to_s[-1]
+  #     # require "pry"; binding.pry
+  #   end
+  #   key
+  # end
+
   def self.find_key(shifts)
     key = ""
-    shifts.each do |shift|
+    shifts.each_with_index do |shift|
       if key == ""
-        current = (key += "0").to_i
+        if shift > 9
+          current = (key + shift.to_s[0] + "0").to_i
+        else
+          current = (key += "0").to_i
+        end
       else
         current = (key[-1] + "0").to_i
       end
@@ -65,7 +91,7 @@ class Key
         current += 1
       end
       key = key += current.to_s[-1]
-      # require "pry"; binding.pry
+      require "pry"; binding.pry
     end
     key
   end
