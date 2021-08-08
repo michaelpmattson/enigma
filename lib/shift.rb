@@ -10,6 +10,7 @@ class Shift
   def initialize(key, offset)
     @key    = key
     @offset = offset
+    # require "pry"; binding.pry
     @map    = {
       a: @key.a + @offset.a,
       b: @key.b + @offset.b,

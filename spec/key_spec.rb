@@ -13,28 +13,18 @@ RSpec.describe Key do
       expect(key.c).to eq(71)
       expect(key.d).to eq(15)
     end
-
-    it 'does not always need a param' do
-      # allow(Integer).to receive(:rand).and_return(2715)
-      key = Key.new
-
-      expect(key).to be_an_instance_of(Key)
-      # expect(key.num).to eq("02715")
-    end
   end
 
   describe '#make' do
     it 'generates a random five digit number' do
-      key = Key.new
-      num = key.make
+      num = Key.make
 
       expect(num.length).to eq(5)
     end
 
     it 'adds leading zeroes to random numbers less than five digits' do
-      key = Key.new
-      allow(key).to receive(:rand).and_return(349)
-      num = key.make
+      allow(Key).to receive(:rand).and_return(349)
+      num = Key.make
 
       expect(num).to eq("00349")
     end

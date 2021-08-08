@@ -13,18 +13,11 @@ RSpec.describe Offset do
       expect(offset.c).to eq(4)
       expect(offset.d).to eq(1)
     end
-
-    it 'does not always need a param' do
-      offset = Offset.new
-
-      expect(offset).to be_an_instance_of(Offset)
-    end
   end
 
   describe '#todays_date' do
     it 'returns date as six character string' do
-      offset = Offset.new
-      date = offset.todays_date
+      date = Offset.todays_date
 
       expect(date.length).to eq(6)
       # Test needs edited per date run
