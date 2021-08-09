@@ -201,7 +201,7 @@ class Key
       end
       key += 1
       if key > 99999
-        return "This combo is longer than 5. Who cares what the key is at this point. You got the encrypted text my friend."
+        return "Key too long"
       end
     end
     key -= 1

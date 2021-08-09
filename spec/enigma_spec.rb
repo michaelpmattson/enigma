@@ -120,10 +120,10 @@ RSpec.describe Enigma do
     end
 
     it "cracks an encryption (uses today's date)" do
-      encryption = @enigma.encrypt("hello world end", "08304", "291018")
+      encrypted = @enigma.encrypt("hello world end", "08304", Date.today.strftime("%d%m%y"))
 
       # crack an encryption (uses today's date)
-      crack = @enigma.crack("vjqtbeaweqihssi")
+      crack = @enigma.crack(encrypted[:encryption])
       #=>
       #   {
       #     decryption: "hello world end",
@@ -132,8 +132,8 @@ RSpec.describe Enigma do
       #   }
 
       expect(crack[:decryption]).to eq("hello world end")
-      # expect(crack[:date]).to eq(# todays date)
-      expect(crack[:key]).to eq(encryption[:key])
+      expect(crack[:date]).to eq(Date.today.strftime("%d%m%y"))
+      expect(crack[:key]).to eq(encrypted[:key])
     end
   end
 

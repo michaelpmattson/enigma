@@ -16,6 +16,10 @@ class Enigma
 
   def encrypt(text, key = Key.make, date = Offset.todays_date)
     make_shift(key, date)
+    encrypt_vals(text, key, date)
+  end
+
+  def encrypt_vals(text, key, date)
     {
       encryption: encryption(text, date),
       key: key,
@@ -71,9 +75,7 @@ class Enigma
     last_four = last_four(ciphertext)
     shift = Shift.find_shift(last_four, end_position, date)
     key = shift.key.num
-    # decryption = decryption(ciphertext, key, date)
     decryption = decrypt_vals(ciphertext, key, date)
-
   end
 
   def find_end_position(ciphertext)
