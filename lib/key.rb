@@ -74,24 +74,29 @@ class Key
   #   key
   # end
 
-  def self.find_key(shifts)
+  def self.find_key(shifts, first)
     key = ""
-    shifts.each_with_index do |shift|
-      if key == ""
-        if shift > 9
-          current = (key + shift.to_s[0] + "0").to_i
-        else
-          current = (key += "0").to_i
-        end
-      else
-        current = (key[-1] + "0").to_i
-      end
-
+    current = 0
+    if first < 10
+      key = "0"
+    else
+      key = first.to_s[0]
+    end
+    shifts.each do |shift|
+      current = (key[-1] + "0").to_i
       while current % 27 != shift
         current += 1
       end
-      key = key += current.to_s[-1]
-      require "pry"; binding.pry
+      # require "pry"; binding.pry
+
+      if current < 10
+        key = key + current.to_s
+      elsif key[-1] == current.to_s[0]
+        key = key += current.to_s[-1]
+      else
+        return Key.find_key(shifts, first + 27)
+      end
+
     end
     key
   end

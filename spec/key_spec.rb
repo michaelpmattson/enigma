@@ -31,16 +31,16 @@ RSpec.describe Key do
   end
 
   describe '#find_key(shifts)' do
-    xit "can find a key with each shift's modulus" do
+    it "can find a key with each shift's modulus" do
       shifts = [8, 2, 3, 4]
 
-      expect(Key.find_key(shifts)).to eq("08304")
+      expect(Key.find_key(shifts, shifts[0])).to eq("08304")
     end
 
-    xit 'can find a key that starts above 10' do
-      shifts = [22, 23, 16, 14]
+    it 'can find a key that starts above 10' do
+      shifts = [18, 23, 12, 13]
 
-      expect(Key.find_key(shifts)).to eq("72394")
+      expect(Key.find_key(shifts, shifts[0])).to eq("72394")
     end
   end
 end

@@ -36,7 +36,7 @@ RSpec.describe Shift do
   end
 
   describe '.find_shift(last_four, end_position, date)' do
-    it 'something' do
+    xit 'something' do
       last_four = "hssi"
       end_position = 3
       date = "291018"
