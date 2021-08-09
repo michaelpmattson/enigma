@@ -37,14 +37,13 @@ class Shift
     enemy_end = ' end'.split('')
     abcd = [:a, :b, :c, :d].rotate(end_position)
     offset = Offset.new(date)
-    offset_access = { a: offset.a, b: offset.b, c: offset.c, d: offset.d }
 
     keys = []
     last_four.each_with_index do |char, index|
       alpha = ALPHABET.index(enemy_end[index])
       chardex = ALPHABET.index(char)
       shift = (chardex - alpha) % 27
-      key = shift - offset_access[abcd[index]]
+      key = shift - offset.send(abcd[index])
       keys << key
     end
 
