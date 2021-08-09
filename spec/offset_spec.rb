@@ -15,16 +15,6 @@ RSpec.describe Offset do
     end
   end
 
-  # describe '#todays_date' do
-  #   it 'returns date as six character string' do
-  #     date = Offset.todays_date
-  #
-  #     expect(date.length).to eq(6)
-  #     # Test needs edited per date run
-  #     # expect(date).to eq("#{Date.today.strftime("%d%m%y")}")
-  #   end
-  # end
-
   describe '#num' do
     it 'returns the last four digits of date squared' do
       offset = Offset.new("050821")
