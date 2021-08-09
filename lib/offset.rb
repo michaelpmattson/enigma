@@ -9,9 +9,9 @@ class Offset
     @d = num[3].to_i
   end
 
-  def self.todays_date
-    Date.today.strftime("%d%m%y")
-  end
+  # def self.todays_date
+  #   Date.today.strftime("%d%m%y")
+  # end
 
   def num
     date = @date.to_i

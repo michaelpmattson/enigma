@@ -8,9 +8,10 @@ class Enigma
 
   def initialize
     @shift = nil
+    @todays_date  = Date.today.strftime("%d%m%y")
   end
 
-  def encrypt(text, key = Key.make, date = Offset.todays_date)
+  def encrypt(text, key = Key.make, date = @todays_date)
     make_shift(key, date)
     encrypt_vals(text, key, date)
   end
@@ -42,7 +43,7 @@ class Enigma
     end.join
   end
 
-  def decrypt(ciphertext, key, date = Offset.todays_date)
+  def decrypt(ciphertext, key, date = @todays_date)
     make_shift(key, date)
     decrypt_vals(ciphertext, key, date)
   end
@@ -70,7 +71,7 @@ class Enigma
     end.join
   end
 
-  def crack(ciphertext, date = Offset.todays_date)
+  def crack(ciphertext, date = @todays_date)
     end_position = find_end_position(ciphertext)
     last_four = last_four(ciphertext)
     shift = Shift.find_shift(last_four, end_position, date)
