@@ -10,13 +10,13 @@ class Enigma
     @shift  = nil
   end
 
-  def make_shift(key, date)
-    @shift = Shift.new(Key.new(key), Offset.new(date))
-  end
-
   def encrypt(text, key = Key.make, date = Offset.todays_date)
     make_shift(key, date)
     encrypt_vals(text, key, date)
+  end
+
+  def make_shift(key, date)
+    @shift = Shift.new(Key.new(key), Offset.new(date))
   end
 
   def encrypt_vals(text, key, date)

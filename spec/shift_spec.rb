@@ -46,12 +46,4 @@ RSpec.describe Shift do
       expect(shift.map).to eq(expectation)
     end
   end
-
-  # describe '#find_key(shifts)' do
-  #   it 'something' do
-  #     shifts = [8, 2, 3, 4]
-  #
-  #     expect(Shift.find_key(shifts)).to eq("08304")
-  #   end
-  # end
 end

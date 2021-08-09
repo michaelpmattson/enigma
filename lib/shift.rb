@@ -49,11 +49,10 @@ class Shift
       key = shift - offset_access[abcd[index]]
       keys << key
     end
+    
     keys = keys.rotate(-end_position)
-    # require "pry"; binding.pry
     key = Key.find_key(keys)
 
     shift = Shift.new(Key.new(key), offset)
-
   end
 end

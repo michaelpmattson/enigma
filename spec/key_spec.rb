@@ -42,5 +42,9 @@ RSpec.describe Key do
 
       expect(Key.find_key(shifts)).to eq("72394")
     end
+
+    it 'escapes if key is too high' do
+      
+    end
   end
 end

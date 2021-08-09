@@ -193,18 +193,19 @@ class Key
   def self.find_key(shifts)
     key = 0
     moduli = []
+
     until moduli == shifts
-      key_string = Key.normalize_length(key.to_s)
-      keys = [key_string[0..1], key_string[1..2], key_string[2..3], key_string[3..4]]
+      str_key = Key.normalize_length(key.to_s)
+      keys = [str_key[0..1], str_key[1..2], str_key[2..3], str_key[3..4]]
+
       moduli = keys.map do |key|
         key.to_i % 27
       end
       key += 1
-      if key > 99999
-        return "Key too long"
-      end
+
+      return "Key too long" if key > 99999
     end
     key -= 1
-    key = Key.normalize_length(key.to_s)
+    Key.normalize_length(key.to_s)
   end
 end
