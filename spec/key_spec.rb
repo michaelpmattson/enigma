@@ -44,7 +44,7 @@ RSpec.describe Key do
     end
 
     it 'escapes if key is too high' do
-      
+
     end
   end
 end

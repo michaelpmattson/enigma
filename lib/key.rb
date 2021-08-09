@@ -3,10 +3,10 @@ class Key
 
   def initialize(num)
     @num = num
-    @a = num[0..1].to_i
-    @b = num[1..2].to_i
-    @c = num[2..3].to_i
-    @d = num[3..4].to_i
+    @a   = num[0..1].to_i
+    @b   = num[1..2].to_i
+    @c   = num[2..3].to_i
+    @d   = num[3..4].to_i
   end
 
   def self.make

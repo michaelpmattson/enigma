@@ -7,7 +7,7 @@ class Enigma
   attr_reader :shift
 
   def initialize
-    @shift  = nil
+    @shift = nil
   end
 
   def encrypt(text, key = Key.make, date = Offset.todays_date)
@@ -75,7 +75,7 @@ class Enigma
     last_four = last_four(ciphertext)
     shift = Shift.find_shift(last_four, end_position, date)
     key = shift.key.num
-    decryption = decrypt_vals(ciphertext, key, date)
+    decrypt_vals(ciphertext, key, date)
   end
 
   def find_end_position(ciphertext)

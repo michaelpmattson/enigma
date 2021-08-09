@@ -2,7 +2,6 @@ require_relative 'key'
 require_relative 'offset'
 
 class Shift
-  # constants
   ALPHABET = ("a".."z").to_a << " "
 
   attr_reader :key, :a, :b, :c, :d
@@ -10,10 +9,10 @@ class Shift
   def initialize(key, offset)
     @key    = key
     @offset = offset
-    @a = @key.a + @offset.a
-    @b = @key.b + @offset.b
-    @c = @key.c + @offset.c
-    @d = @key.d + @offset.d
+    @a      = @key.a + @offset.a
+    @b      = @key.b + @offset.b
+    @c      = @key.c + @offset.c
+    @d      = @key.d + @offset.d
   end
 
   def right(char, key_letter)
