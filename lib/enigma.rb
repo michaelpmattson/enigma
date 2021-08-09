@@ -4,11 +4,9 @@ require_relative 'key'
 require_relative 'offset'
 
 class Enigma
-  attr_reader :shift
-
   def initialize
-    @shift = nil
-    @todays_date  = Date.today.strftime("%d%m%y")
+    @shift       = nil
+    @todays_date = Date.today.strftime("%d%m%y")
   end
 
   def encrypt(text, key = Key.make, date = @todays_date)
