@@ -5,7 +5,7 @@ class Shift
   # constants
   ALPHABET = ("a".."z").to_a << " "
 
-  attr_reader :map
+  attr_reader :key, :map
 
   def initialize(key, offset)
     @key    = key
@@ -50,10 +50,10 @@ class Shift
       keys << key
     end
     keys = keys.rotate(-end_position)
-    require "pry"; binding.pry
+    # require "pry"; binding.pry
+    key = Key.find_key(keys, keys[0])
 
-    Shift.new(Key.new(key), offset)
+    shift = Shift.new(Key.new(key), offset)
+
   end
-
-
 end

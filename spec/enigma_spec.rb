@@ -96,7 +96,7 @@ RSpec.describe Enigma do
   end
 
   describe '#crack(ciphertext, date)' do
-    xit 'cracks an encryption with a date' do
+    it 'cracks an encryption with a date' do
       encryption = @enigma.encrypt("hello world end", "08304", "291018")
       #=>
       #   {
@@ -114,12 +114,12 @@ RSpec.describe Enigma do
       #     key: "08304"
       #   }
 
-      expect(crack[:decryption]).to eq(encryption[:encryption])
+      expect(crack[:decryption]).to eq("hello world end")
       expect(crack[:date]).to eq(encryption[:date])
       expect(crack[:key]).to eq(encryption[:key])
     end
 
-    xit "cracks an encryption (uses today's date)" do
+    it "cracks an encryption (uses today's date)" do
       encryption = @enigma.encrypt("hello world end", "08304", "291018")
 
       # crack an encryption (uses today's date)

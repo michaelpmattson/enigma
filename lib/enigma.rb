@@ -40,7 +40,11 @@ class Enigma
 
   def decrypt(ciphertext, key, date = Offset.todays_date)
     make_shift(key, date)
-    {
+    decrypt_vals(ciphertext, key, date)
+  end
+
+  def decrypt_vals(ciphertext, key, date)
+      {
       decryption: decryption(ciphertext, key, date),
       key: key,
       date: date
@@ -66,6 +70,10 @@ class Enigma
     end_position = find_end_position(ciphertext)
     last_four = last_four(ciphertext)
     shift = Shift.find_shift(last_four, end_position, date)
+    require "pry"; binding.pry
+    key = shift.key.num
+    # decryption = decryption(ciphertext, key, date)
+    decryption = decrypt_vals(ciphertext, key, date)
 
   end
 

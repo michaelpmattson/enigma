@@ -1,5 +1,5 @@
 class Key
-  attr_reader :a, :b, :c, :d
+  attr_reader :num, :a, :b, :c, :d
 
   def initialize(num)
     @num = num
@@ -87,14 +87,22 @@ class Key
       while current % 27 != shift
         current += 1
       end
-      # require "pry"; binding.pry
+      require "pry"; binding.pry
 
       if current < 10
         key = key + current.to_s
       elsif key[-1] == current.to_s[0]
         key = key += current.to_s[-1]
       else
-        return Key.find_key(shifts, first + 27)
+
+        if current + 27 < 100
+          # step up the current and start over ?
+          return Key.find_key(shifts, first + 27)
+        else
+          return Key.find_key(shifts, first + 27)
+        end
+
+
       end
 
     end
