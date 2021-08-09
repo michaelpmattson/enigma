@@ -8,9 +8,10 @@ RSpec.describe Shift do
 
       expect(shift).to be_an_instance_of(Shift)
 
-      expectation = { a: 76, b: 23, c: 43, d: 95 }
-
-      expect(shift.map).to eq(expectation)
+      expect(shift.a).to eq(76)
+      expect(shift.b).to eq(23)
+      expect(shift.c).to eq(43)
+      expect(shift.d).to eq(95)
     end
   end
 
@@ -42,8 +43,10 @@ RSpec.describe Shift do
       date = "291018"
       shift = Shift.find_shift(last_four, end_position, date)
 
-      expectation = { a: 14, b: 86, c: 32, d: 8 }
-      expect(shift.map).to eq(expectation)
+      expect(shift.a).to eq(14)
+      expect(shift.b).to eq(86)
+      expect(shift.c).to eq(32)
+      expect(shift.d).to eq(8)
     end
   end
 end
