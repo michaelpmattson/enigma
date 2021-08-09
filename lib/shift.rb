@@ -51,7 +51,7 @@ class Shift
     end
     keys = keys.rotate(-end_position)
     # require "pry"; binding.pry
-    key = Key.find_key(keys, keys[0])
+    key = Key.find_key(keys)
 
     shift = Shift.new(Key.new(key), offset)
 

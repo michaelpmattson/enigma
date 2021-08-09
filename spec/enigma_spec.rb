@@ -131,7 +131,7 @@ RSpec.describe Enigma do
       #     key: # key used for encryption
       #   }
 
-      expect(crack[:decryption]).to eq(encryption[:encryption])
+      expect(crack[:decryption]).to eq("hello world end")
       # expect(crack[:date]).to eq(# todays date)
       expect(crack[:key]).to eq(encryption[:key])
     end

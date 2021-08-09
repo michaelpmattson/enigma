@@ -74,38 +74,137 @@ class Key
   #   key
   # end
 
-  def self.find_key(shifts, first)
-    key = ""
-    current = 0
-    if first < 10
-      key = "0"
-    else
-      key = first.to_s[0]
-    end
-    shifts.each do |shift|
-      current = (key[-1] + "0").to_i
-      while current % 27 != shift
-        current += 1
+  # def self.find_key(shifts, first)
+  #   key = ""
+  #   current = 0
+  #   if first < 10
+  #     key = "0"
+  #   else
+  #     key = first.to_s[0]
+  #   end
+  #   shifts.each do |shift|
+  #     current = (key[-1] + "0").to_i
+  #     while current % 27 != shift
+  #       current += 1
+  #     end
+  #     # require "pry"; binding.pry
+  #
+  #     if current < 10
+  #       key = key + current.to_s
+  #     elsif key[-1] == current.to_s[0]
+  #       key = key += current.to_s[-1]
+  #     else
+  #
+  #       return Key.find_key(shifts, first + 27)
+  #
+  #
+  #     end
+  #
+  #   end
+  #   key
+  # end
+
+  # def self.find_key(shifts)
+  #   key = ""
+  #   if shifts[0] < 10
+  #     key = "0#{shifts[0]}"
+  #   else
+  #     key = shifts[0].to_s
+  #   end
+  #   length = key.length
+  #
+  #   require "pry"; binding.pry
+  #
+  #   next_val = shifts[1]
+  #   while next_val < 100
+  #
+  #     if next_val < 10
+  #       next_string = "0#{next_val}"
+  #     else
+  #       next_string = next_val.to_s
+  #     end
+  #
+  #     if key[-1] == next_string[0]
+  #       key = key + next_string[1]
+  #       break
+  #     else
+  #       next_val += 27
+  #     end
+  #   end
+  #
+  #   if key.length == length
+  #     shifts[0] += 27
+  #     return Key.find_key(shifts)
+  #   end
+  #
+  #   length = key.length
+  #
+  #   next_val = shifts[2]
+  #
+  #   while next_val < 100
+  #
+  #     if next_val < 10
+  #       next_string = "0#{next_val}"
+  #     else
+  #       next_string = next_val.to_s
+  #     end
+  #
+  #     if key[-1] == next_string[0]
+  #       key = key + next_string[1]
+  #       break
+  #     else
+  #       next_val += 27
+  #     end
+  #   end
+  #
+  #   if key.length == length
+  #     shifts[0] += 27
+  #     return Key.find_key(shifts)
+  #   end
+  #
+  #   length = key.length
+  #
+  #   next_val = shifts[3]
+  #   while next_val < 100
+  #
+  #     if next_val < 10
+  #       next_string = "0#{next_val}"
+  #     else
+  #       next_string = next_val.to_s
+  #     end
+  #
+  #     if key[-1] == next_string[0]
+  #       key = key + next_string[1]
+  #       break
+  #     else
+  #       next_val += 27
+  #     end
+  #   end
+  #   require "pry"; binding.pry
+  #
+  #   if key.length == length || key.length > 5
+  #     shifts[0] += 27
+  #     return Key.find_key(shifts)
+  #   end
+  #
+  #   key
+  # end
+
+  def self.find_key(shifts)
+    key = 0
+    moduli = []
+    until moduli == shifts
+      key_string = Key.normalize_length(key.to_s)
+      keys = [key_string[0..1], key_string[1..2], key_string[2..3], key_string[3..4]]
+      moduli = keys.map do |key|
+        key.to_i % 27
       end
-      require "pry"; binding.pry
-
-      if current < 10
-        key = key + current.to_s
-      elsif key[-1] == current.to_s[0]
-        key = key += current.to_s[-1]
-      else
-
-        if current + 27 < 100
-          # step up the current and start over ?
-          return Key.find_key(shifts, first + 27)
-        else
-          return Key.find_key(shifts, first + 27)
-        end
-
-
+      key += 1
+      if key > 99999
+        return "This combo is longer than 5. Who cares what the key is at this point. You got the encrypted text my friend."
       end
-
     end
-    key
+    key -= 1
+    key = Key.normalize_length(key.to_s)
   end
 end
