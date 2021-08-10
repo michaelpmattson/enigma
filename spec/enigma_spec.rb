@@ -3,21 +3,22 @@ require './lib/enigma'
 require 'date'
 
 RSpec.describe Enigma do
-  before(:each) do
-    @enigma = Enigma.new
-  end
+  # before(:each) do
+  #   enigma = Enigma.new
+  # end
 
   describe '#initialize' do
     it 'exists and has attributes' do
-      expect(@enigma).to be_an_instance_of(Enigma)
-      # expect(@enigma.key).to eq(nil)
+      enigma = Enigma.new
+
+      expect(enigma).to be_an_instance_of(Enigma)
     end
   end
 
   describe '#encrypt(text, key, date)' do
     it 'encrypts a message with a key and date' do
-      # encrypt a message with a key and date
-      encrypt = @enigma.encrypt("hello world", "02715", "040895")
+      enigma = Enigma.new
+      encrypt = enigma.encrypt("hello world", "02715", "040895")
       expectation = {
         encryption: "keder ohulw",
         key: "02715",
@@ -29,8 +30,9 @@ RSpec.describe Enigma do
 
     it "encrypts a message with a key (uses today's date)" do
       allow(Date).to receive(:today).and_return(Date.new(1995, 8, 4))
-      # encrypt a message with a key (uses today's date)
-      encrypt = @enigma.encrypt("hello world", "02715")
+      enigma = Enigma.new
+
+      encrypt = enigma.encrypt("hello world", "02715")
       #=> # encryption hash here
       expectation = {
         encryption: "keder ohulw",
@@ -43,10 +45,12 @@ RSpec.describe Enigma do
 
     it "encrypts a message (generates random key and uses today's date)" do
       allow(Date).to receive(:today).and_return(Date.new(1995, 8, 4))
+      enigma = Enigma.new
+
       allow(Key).to receive(:rand).and_return(2715)
       # encrypt a message (generates random key and uses today's date)
-      encrypt = @enigma.encrypt("hello world")
-      #=> # encryption hash here
+      encrypt = enigma.encrypt("hello world")
+
       expectation = {
         encryption: "keder ohulw",
         key: "02715",
@@ -59,8 +63,10 @@ RSpec.describe Enigma do
 
   describe '#encryption(text)' do
     it 'returns the encryption' do
-      @enigma.make_shift("02715", "040895")
-      encryption = @enigma.encryption("hello world", "02715")
+      enigma = Enigma.new
+      enigma.make_shift("02715", "040895")
+
+      encryption = enigma.encryption("hello world", "02715")
 
       expect(encryption).to eq("keder ohulw")
     end
@@ -68,8 +74,9 @@ RSpec.describe Enigma do
 
   describe '#decrypt(ciphertext, key, date)' do
     it 'decrypts a message with a key and date' do
-      # decrypt a message with a key and date
-      decrypt = @enigma.decrypt("keder ohulw", "02715", "040895")
+      enigma = Enigma.new
+      decrypt = enigma.decrypt("keder ohulw", "02715", "040895")
+
       expectation = {
         decryption: "hello world",
         key: "02715",
@@ -81,10 +88,10 @@ RSpec.describe Enigma do
 
     it "decrypts a message with a key (uses today's date)" do
       allow(Date).to receive(:today).and_return(Date.new(1995, 8, 4))
-      encrypted = @enigma.encrypt("hello world", "02715")
-      #decrypt a message with a key (uses today's date)
-      decrypted = @enigma.decrypt(encrypted[:encryption], "02715")
-      #=> # decryption hash here
+      enigma = Enigma.new
+      encrypted = enigma.encrypt("hello world", "02715")
+      decrypted = enigma.decrypt(encrypted[:encryption], "02715")
+
       expectation = {
         decryption: "hello world",
         key: "02715",
@@ -96,8 +103,9 @@ RSpec.describe Enigma do
   end
 
   describe '#crack(ciphertext, date)' do
-    xit 'cracks an encryption with a date' do
-      encryption = @enigma.encrypt("hello world end", "08304", "291018")
+    it 'cracks an encryption with a date' do
+      enigma = Enigma.new
+      encryption = enigma.encrypt("hello world end", "08304", "291018")
       #=>
       #   {
       #     encryption: "vjqtbeaweqihssi",
@@ -106,7 +114,7 @@ RSpec.describe Enigma do
       #   }
 
       # crack an encryption with a date
-      crack = @enigma.crack("vjqtbeaweqihssi", "291018")
+      crack = enigma.crack("vjqtbeaweqihssi", "291018")
       #=>
       #   {
       #     decryption: "hello world end",
@@ -114,16 +122,17 @@ RSpec.describe Enigma do
       #     key: "08304"
       #   }
 
-      expect(crack[:decryption]).to eq(encryption[:encryption])
+      expect(crack[:decryption]).to eq("hello world end")
       expect(crack[:date]).to eq(encryption[:date])
       expect(crack[:key]).to eq(encryption[:key])
     end
 
-    xit "cracks an encryption (uses today's date)" do
-      encryption = @enigma.encrypt("hello world end", "08304", "291018")
+    it "cracks an encryption (uses today's date)" do
+      enigma = Enigma.new
+      encrypted = enigma.encrypt("hello world end", "08304", Date.today.strftime("%d%m%y"))
 
       # crack an encryption (uses today's date)
-      crack = @enigma.crack("vjqtbeaweqihssi")
+      crack = enigma.crack(encrypted[:encryption])
       #=>
       #   {
       #     decryption: "hello world end",
@@ -131,9 +140,27 @@ RSpec.describe Enigma do
       #     key: # key used for encryption
       #   }
 
-      expect(crack[:decryption]).to eq(encryption[:encryption])
-      # expect(crack[:date]).to eq(# todays date)
-      expect(crack[:key]).to eq(encryption[:key])
+      expect(crack[:decryption]).to eq("hello world end")
+      expect(crack[:date]).to eq(Date.today.strftime("%d%m%y"))
+      expect(crack[:key]).to eq(encrypted[:key])
+    end
+  end
+
+  describe '#find_end_position(ciphertext)' do
+    it 'returns number of characters A shift is from the end' do
+      enigma = Enigma.new
+      encryption = enigma.encrypt("hello world end", "08304", "291018")
+
+      expect(enigma.find_end_position("vjqtbeaweqihssi")).to eq(3)
+    end
+  end
+
+  describe '#last_four(ciphertext)' do
+    it 'returns last four characters' do
+      enigma = Enigma.new
+      ciphertext = "vjqtbeaweqihssi"
+
+      expect(enigma.last_four(ciphertext)).to eq("hssi")
     end
   end
 end

@@ -29,4 +29,22 @@ RSpec.describe Key do
       expect(num).to eq("00349")
     end
   end
+
+  describe '#find_key(shifts)' do
+    it "can find a key with each shift's modulus" do
+      shifts = [8, 2, 3, 4]
+
+      expect(Key.find_key(shifts)).to eq("08304")
+    end
+
+    it 'can find a key that starts above 10' do
+      shifts = [18, 23, 12, 13]
+
+      expect(Key.find_key(shifts)).to eq("72394")
+    end
+
+    it 'escapes if key is too high' do
+
+    end
+  end
 end

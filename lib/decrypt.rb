@@ -1,8 +1,8 @@
 require_relative 'enigma'
 
-handle = File.open(ARGV[0], "r")
-encrypted = handle.read
-handle.close
+encrypted_file = File.open(ARGV[0], "r")
+encrypted = encrypted_file.read.strip
+encrypted_file.close
 
 enigma = Enigma.new
 decrypted = enigma.decrypt(encrypted, ARGV[2], ARGV[3])
