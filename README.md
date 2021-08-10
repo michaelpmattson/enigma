@@ -10,7 +10,7 @@
 * [Contact](#contact)
 
 ## General info
-This project is a command line implementation of the game Battleship. Users can try their luck against a computer opponent. The program is place user and computer ships, display turns, and has an adjustable board size.
+This project is a command line cryptography project based on the Enigma machine, famously cracked by Alan Turing. Users can input a desired message which can then be scrambled and unlocked with a key and date. An extension on the project includes the ability to crack the coded message without the use of a key.
 
 ## Learning Goals
 * Practice OOP
