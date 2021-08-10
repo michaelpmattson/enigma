@@ -27,7 +27,7 @@ class Enigma
   end
 
   def encryption(text, date)
-    text_array = text.chars
+    text_array = text.downcase.chars
     text_array.map.with_index do |char, index|
       if    index % 4 == 0
         @shift.right(char, :a)
@@ -72,9 +72,9 @@ class Enigma
   def crack(ciphertext, date = @todays_date)
     end_position = find_end_position(ciphertext)
     last_four = last_four(ciphertext)
-    shift = Shift.find_shift(last_four, end_position, date)
-    key = shift.key.num
-    decrypt_vals(ciphertext, key, date)
+    @shift = Shift.find_shift(last_four, end_position, date)
+    key = @shift.key.num
+    decryption = decrypt_vals(ciphertext, key, date)
   end
 
   def find_end_position(ciphertext)

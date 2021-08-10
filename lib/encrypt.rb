@@ -1,7 +1,7 @@
 require_relative 'enigma'
 
 message_file = File.open(ARGV[0], "r")
-message = message_file.read
+message = message_file.read.strip
 message_file.close
 
 enigma = Enigma.new

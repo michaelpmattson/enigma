@@ -1,7 +1,7 @@
 require_relative 'enigma'
 
 encrypted_file = File.open(ARGV[0], "r")
-encrypted = encrypted_file.read
+encrypted = encrypted_file.read.strip
 encrypted_file.close
 
 enigma = Enigma.new
