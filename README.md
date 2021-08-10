@@ -29,15 +29,15 @@ with `' end'`. Several commands can be run from the command line.
 
 1. Encrypt the text:
    ```
-   $ ruby ./lib/encrypt.rb message.txt encrypted.txt
+   ruby ./lib/encrypt.rb message.txt encrypted.txt
    ```
 2. Decrypt the text:
    ```
-   $ ruby ./lib/decrypt.rb encrypted.txt decrypted.txt <KEY> <DATE>
+   ruby ./lib/decrypt.rb encrypted.txt decrypted.txt <KEY> <DATE>
    ```
 3. Crack the text:
    ```
-   $ ruby ./lib/crack.rb encrypted.txt cracked.txt <DATE>
+   ruby ./lib/crack.rb encrypted.txt cracked.txt <DATE>
    ```
 
 ## Features
